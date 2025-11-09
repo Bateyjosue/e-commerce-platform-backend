@@ -3,7 +3,6 @@ import express, { Express } from "express";
 // import notFoundMiddleware from "./middleware/notFound";
 // import errorHandler from "./middleware/errorHandler";
 import dotenv from "dotenv";
-import "express-async-errors";
 dotenv.config();
 import morgan from "morgan";
 // import authRouter from "./routes/authRoute";
@@ -12,8 +11,6 @@ import fileUpload from "express-fileupload";
 import rateLimiter from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
-import xss from "xss-clean";
-import mongoSanitize from "express-mongo-sanitize";
 
 const app: Express = express();
 
@@ -26,8 +23,6 @@ app.use(
 );
 app.use(helmet());
 app.use(cors());
-app.use(mongoSanitize());
-app.use(xss());
 
 app.use(morgan("tiny"));
 app.use(express.json());

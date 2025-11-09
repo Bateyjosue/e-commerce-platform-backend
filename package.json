@@ -13,9 +13,13 @@
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
+    "@types/express-fileupload": "^1.5.1",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^24.10.0",
     "typescript": "^5.9.3"
   },
@@ -34,6 +38,6 @@
     "morgan": "^1.10.1",
     "nodemon": "^3.1.10",
     "undici-types": "^7.16.0",
-    "xss-clean": "^0.1.4"
+    "xss": "^1.0.15"
   }
 }
