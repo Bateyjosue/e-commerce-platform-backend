@@ -1,0 +1,20 @@
+{
+  "name": "e-commerce-platform-backend",
+  "version": "1.0.0",
+  "description": "Backend for an ecommerce platform",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "undici-types": "^7.16.0"
+  }
+}
