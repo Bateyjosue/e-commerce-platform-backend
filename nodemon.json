@@ -1,0 +1,6 @@
+{
+    "whatch": ["src"],
+    "ext":".tsc, .js",
+    "ignore":[],
+    "exec":"npx ts-node --files ./src/server.ts"
+}
