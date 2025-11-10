@@ -1,8 +1,4 @@
+import authRouter from "./authRouter";
+import userRouter from "./userRouter";
 
-import { Router } from 'express';
-
-const api = Router();
-
-// Add your routes here
-
-export { api };
+export { authRouter, userRouter };
