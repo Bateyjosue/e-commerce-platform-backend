@@ -61,7 +61,7 @@ async function getAllProducts(req: Request, res: Response) {
 
 async function getSingleProduct(req: Request, res: Response) {
   const { id } = req.params;
-  const product = await Product.findOne({ _id: id }).populate("reviews");
+  const product = await Product.findOne({ _id: id });
   if (!product) {
     throw new NotFoundError(`Product with id ${id} not found`);
   }
