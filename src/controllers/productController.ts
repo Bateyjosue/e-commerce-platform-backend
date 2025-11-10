@@ -41,13 +41,21 @@ async function createProduct(req: Request, res: Response) {
 }
 
 async function getAllProducts(req: Request, res: Response) {
+  const { search } = req.query;
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
-  const products = await Product.find({}).skip(skip).limit(limit);
+  const queryObject: any = {};
+  if (search) {
+    queryObject.name = { $regex: search, $options: "i" };
+  }
 
-  const totalProducts = await Product.countDocuments();
+  let result = Product.find(queryObject).skip(skip).limit(limit);
+
+  const products = await result;
+
+  const totalProducts = await Product.countDocuments(queryObject);
   const totalPages = Math.ceil(totalProducts / limit);
 
   res.status(StatusCodes.OK).json({
