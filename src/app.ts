@@ -2,8 +2,7 @@
 import express, { Express } from "express";
 import notFoundMiddleware from "./middleware/notFound";
 import errorHandler from "./middleware/errorHandler";
-import dotenv from "dotenv";
-dotenv.config();
+
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
