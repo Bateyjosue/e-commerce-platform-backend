@@ -12,8 +12,17 @@ import helmet from "helmet";
 import cors from "cors";
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
+import { v2 as cloudinary } from 'cloudinary';
+
 import { authRouter, orderRouter, productRouter, userRouter } from "./routes";
 import { authenticatedUser } from "./middleware";
+
+// Cloudinary Config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app: Express = express();
 

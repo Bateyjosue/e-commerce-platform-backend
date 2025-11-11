@@ -46,9 +46,8 @@ const productRouter = express.Router();
  *               name: { type: string, example: 'Wireless Headphones' }
  *               price: { type: number, example: 99.99 }
  *               description: { type: string, example: 'High-quality wireless headphones with noise cancellation.' }
- *               category: { type: string, example: 'electronics' }
- *               company: { type: string, example: 'TechCorp' }
- *               inventory: { type: number, example: 150 }
+ *               category: { type: string, example: 'Electronics' }
+ *               stock: { type: number, example: 150 }
  *               image:
  *                 type: string
  *                 format: binary
@@ -111,9 +110,8 @@ productRouter
  *               name: { type: string, example: 'Wireless Headphones' }
  *               price: { type: number, example: 99.99 }
  *               description: { type: string, example: 'High-quality wireless headphones with noise cancellation.' }
- *               category: { type: string, example: 'electronics' }
- *               company: { type: string, example: 'TechCorp' }
- *               inventory: { type: number, example: 150 }
+ *               category: { type: string, example: 'Electronics' }
+ *               stock: { type: number, example: 150 }
  *               image:
  *                 type: string
  *                 format: binary
