@@ -5,7 +5,7 @@ import notFoundMiddleware from "./notFound"
 
 export {
     authenticatedUser,
-authorizePermissions,
-errorHandler,
-notFoundMiddleware
+    authorizePermissions,
+    errorHandler,
+    notFoundMiddleware
 }

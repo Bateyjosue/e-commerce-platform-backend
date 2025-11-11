@@ -10,6 +10,8 @@ import fileUpload from "express-fileupload";
 import rateLimiter from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger';
 import { authRouter, orderRouter, productRouter, userRouter } from "./routes";
 import { authenticatedUser } from "./middleware";
 
@@ -32,10 +34,12 @@ app.use(cookieParser(process.env.JWT_SECRET_KEY));
 app.use(express.static("./public"));
 app.use(fileUpload());
 
+// SwaggerUI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", authenticatedUser, userRouter);
 app.use("/api/v1/products", productRouter);
-// // app.use("/api/v1/reviews", authenticatedUser, reviewRouter);
 app.use("/api/v1/orders", authenticatedUser, orderRouter);
 
 app.use(notFoundMiddleware);
