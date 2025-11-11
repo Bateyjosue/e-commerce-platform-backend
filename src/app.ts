@@ -10,7 +10,7 @@ import fileUpload from "express-fileupload";
 import rateLimiter from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
-import { authRouter, productRouter, userRouter } from "./routes";
+import { authRouter, orderRouter, productRouter, userRouter } from "./routes";
 import { authenticatedUser } from "./middleware";
 
 const app: Express = express();
@@ -36,7 +36,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", authenticatedUser, userRouter);
 app.use("/api/v1/products", productRouter);
 // // app.use("/api/v1/reviews", authenticatedUser, reviewRouter);
-// app.use("/api/v1/orders", authenticatedUser, orderRouter);
+app.use("/api/v1/orders", authenticatedUser, orderRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandler);
