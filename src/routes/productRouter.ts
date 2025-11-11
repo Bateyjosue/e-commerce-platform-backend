@@ -25,7 +25,7 @@ const productRouter = express.Router();
  *     tags: [Products]
  *     responses:
  *       200:
- *         description: A list of products
+ *         description: A list of products.
  *         content:
  *           application/json:
  *             schema:
@@ -35,17 +35,27 @@ const productRouter = express.Router();
  *   post:
  *     summary: Create a new product
  *     tags: [Products]
- *     security:
- *       - bearerAuth: []
+ *     security: [ { "bearerAuth": [] } ]
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Product'
+ *             type: object
+ *             properties:
+ *               name: { type: string, example: 'Wireless Headphones' }
+ *               price: { type: number, example: 99.99 }
+ *               description: { type: string, example: 'High-quality wireless headphones with noise cancellation.' }
+ *               category: { type: string, example: 'electronics' }
+ *               company: { type: string, example: 'TechCorp' }
+ *               inventory: { type: number, example: 150 }
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Optional product image file (max 1MB).
  *     responses:
  *       201:
- *         description: Product created successfully
+ *         description: Product created successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -70,39 +80,47 @@ productRouter
  *       - in: path
  *         name: id
  *         required: true
- *         schema:
- *           type: string
- *         description: The product ID
+ *         schema: { type: string }
+ *         description: The product ID.
  *     responses:
  *       200:
- *         description: A single product
+ *         description: A single product.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Product'
  *       404:
- *         description: Product not found
+ *         description: Not Found
  *   patch:
  *     summary: Update a product
  *     tags: [Products]
- *     security:
- *       - bearerAuth: []
+ *     security: [ { "bearerAuth": [] } ]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         schema:
- *           type: string
- *         description: The product ID
+ *         schema: { type: string }
+ *         description: The product ID.
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Product'
+ *             type: object
+ *             properties:
+ *               name: { type: string, example: 'Wireless Headphones' }
+ *               price: { type: number, example: 99.99 }
+ *               description: { type: string, example: 'High-quality wireless headphones with noise cancellation.' }
+ *               category: { type: string, example: 'electronics' }
+ *               company: { type: string, example: 'TechCorp' }
+ *               inventory: { type: number, example: 150 }
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Optional product image file (max 1MB).
  *     responses:
  *       200:
- *         description: Product updated successfully
+ *         description: Product updated successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -112,28 +130,26 @@ productRouter
  *       403:
  *         description: Forbidden (admin only)
  *       404:
- *         description: Product not found
+ *         description: Not Found
  *   delete:
  *     summary: Delete a product
  *     tags: [Products]
- *     security:
- *       - bearerAuth: []
+ *     security: [ { "bearerAuth": [] } ]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         schema:
- *           type: string
- *         description: The product ID
+ *         schema: { type: string }
+ *         description: The product ID.
  *     responses:
  *       200:
- *         description: Product deleted successfully
+ *         description: Product deleted successfully.
  *       401:
  *         description: Unauthorized
  *       403:
  *         description: Forbidden (admin only)
  *       404:
- *         description: Product not found
+ *         description: Not Found
  */
 productRouter
   .route("/:id")

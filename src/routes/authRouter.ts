@@ -31,13 +31,26 @@ const authRouter = express.Router();
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - username
  *               - email
  *               - password
  *             properties:
- *               name: { type: string, example: 'John Doe' }
- *               email: { type: string, example: 'josue.batey@gmail.com' }
- *               password: { type: string, example: 'password123' }
+ *               username:
+ *                 type: string
+ *                 description: Must be alphanumeric and unique.
+ *                 pattern: '^[a-zA-Z0-9]+$'
+ *                 example: 'johndoe123'
+ *               email:
+ *                 type: string
+ *                 description: Must be a valid email address and unique.
+ *                 format: email
+ *                 example: 'john.doe@example.com'
+ *               password:
+ *                 type: string
+ *                 description: Must be at least 8 characters, and contain an uppercase letter, a lowercase letter, a number, and a special character.
+ *                 pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$'
+ *                 minLength: 8
+ *                 example: 'Password123!'
  *     responses:
  *       201:
  *         description: User registered successfully
