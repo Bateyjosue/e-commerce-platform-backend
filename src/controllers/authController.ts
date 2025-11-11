@@ -16,10 +16,30 @@ import sendResetPasswordEmail from "../helpers/sendResetPasswordEmail";
 async function register(req: Request, res: Response) {
   const { email, username, password } = req.body;
 
+  // 1. Password Complexity Validation
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  if (!password || !passwordRegex.test(password)) {
+    throw new BadRequestError(
+      "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character."
+    );
+  }
+
+  // 2. Email Uniqueness Check
   const isEmailExist = await User.findOne({ email });
   if (isEmailExist) {
     throw new BadRequestError("Email already exists");
   }
+
+  // 3. Username Validation (Alphanumeric and Uniqueness)
+  const usernameRegex = /^[a-zA-Z0-9]+$/;
+  if (!username || !usernameRegex.test(username)) {
+    throw new BadRequestError("Username must be alphanumeric.");
+  }
+  const isUsernameExist = await User.findOne({ username });
+  if (isUsernameExist) {
+    throw new BadRequestError("Username already taken.");
+  }
+
 
   const isFirstAccount = (await User.countDocuments({})) === 0;
   const role = isFirstAccount ? "admin" : "user";
@@ -78,24 +98,22 @@ async function login(req: Request, res: Response) {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new BadRequestError("Please all fields are required");
+    throw new BadRequestError("Please provide email and password");
+  }
+  
+  const emailRegex = /\S+@\S+\.\S+/;
+  if(!emailRegex.test(email)){
+      throw new BadRequestError("Please provide a valid email format");
   }
 
   const user = await User.findOne({ email });
   if (!user) {
-    throw new UnAuthenticatedError(
-      "Account does not exist, please sign up first",
-    );
+    throw new UnAuthenticatedError("Invalid credentials");
   }
-  // if (!user.isVerified) {
-  //   throw new UnAuthenticatedError(
-  //     "Please verify your account before to login",
-  //   );
-  // }
 
   const isPasswordMatch = await user.matchPassword(password);
   if (!isPasswordMatch) {
-    throw new UnAuthenticatedError("Email or password incorrect");
+    throw new UnAuthenticatedError("Invalid credentials");
   }
 
   const tokenUser = { username: user.username, userId: (user._id as any).toString(), role: user.role };
@@ -105,7 +123,7 @@ async function login(req: Request, res: Response) {
   if (existingToken) {
     const { isValid } = existingToken;
     if (!isValid) {
-      throw new UnAuthenticatedError("Invalid credentials token...");
+      throw new UnAuthenticatedError("Invalid credentials");
     }
     refreshToken = existingToken.refreshToken;
     attachCookiesToResponse(res, tokenUser, refreshToken);

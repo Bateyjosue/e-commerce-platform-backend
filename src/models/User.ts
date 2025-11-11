@@ -20,8 +20,10 @@ const UserSchema = new mongoose.Schema<UserDoc>({
   username: {
     type: String,
     required: [true, "Username is required"],
-    minLength: 3,
-    maxLength: 50,
+    minLength: [3, 'Username must be at least 3 characters long'],
+    maxLength: [50, 'Username cannot be more than 50 characters long'],
+    unique: true,
+    match: [/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric.'],
   },
   email: {
     type: String,
@@ -35,7 +37,11 @@ const UserSchema = new mongoose.Schema<UserDoc>({
   password: {
     type: String,
     required: [true, "Password is required"],
-    minLength: 6,
+    minLength: [8, 'Password must be at least 8 characters long.'],
+    match: [
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+        'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+    ]
   },
   role: {
     type: String,
