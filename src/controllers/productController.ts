@@ -6,6 +6,10 @@ import { v2 as cloudinary } from "cloudinary";
 import DatauriParser from "datauri/parser";
 import path from "path";
 import { Document } from "mongoose";
+import {
+  sendSuccessResponse,
+  sendPaginatedResponse,
+} from "../utils/response";
 
 // Define an interface for the Product document for type safety
 interface IProduct extends Document {
@@ -65,7 +69,12 @@ async function createProduct(req: Request, res: Response) {
   }
 
   const product = await Product.create(req.body);
-  res.status(StatusCodes.CREATED).json({ product });
+  sendSuccessResponse(
+    res,
+    "Product created successfully.",
+    product,
+    StatusCodes.CREATED,
+  );
 }
 
 async function getAllProducts(req: Request, res: Response) {
@@ -79,20 +88,17 @@ async function getAllProducts(req: Request, res: Response) {
     queryObject.name = { $regex: search, $options: "i" };
   }
 
-  let result = Product.find(queryObject).skip(skip).limit(limit);
-
-  const products = await result;
-
+  const products = await Product.find(queryObject).skip(skip).limit(limit);
   const totalProducts = await Product.countDocuments(queryObject);
-  const totalPages = Math.ceil(totalProducts / limit);
 
-  res.status(StatusCodes.OK).json({
-    currentPage: page,
-    pageSize: products.length,
-    totalPages,
-    totalProducts,
+  sendPaginatedResponse(
+    res,
+    "Products retrieved successfully.",
     products,
-  });
+    page,
+    products.length,
+    totalProducts,
+  );
 }
 
 async function getSingleProduct(req: Request, res: Response) {
@@ -101,7 +107,7 @@ async function getSingleProduct(req: Request, res: Response) {
   if (!product) {
     throw new NotFoundError(`Product with id ${id} not found`);
   }
-  res.status(StatusCodes.OK).json({ product });
+  sendSuccessResponse(res, "Product retrieved successfully.", product);
 }
 
 async function updateProduct(req: Request, res: Response) {
@@ -113,7 +119,6 @@ async function updateProduct(req: Request, res: Response) {
     throw new NotFoundError(`Product with id ${id} not found`);
   }
 
-  // If a new image is uploaded, delete the old one first
   if (req.files && req.files.image && productToUpdate.imagePublicId) {
     await cloudinary.uploader.destroy(productToUpdate.imagePublicId);
   }
@@ -129,7 +134,7 @@ async function updateProduct(req: Request, res: Response) {
     runValidators: true,
   });
 
-  res.status(StatusCodes.OK).json({ product: updatedProduct });
+  sendSuccessResponse(res, "Product updated successfully.", updatedProduct);
 }
 
 async function deleteProduct(req: Request, res: Response) {
@@ -140,13 +145,12 @@ async function deleteProduct(req: Request, res: Response) {
     throw new NotFoundError(`No product found with id ${id}`);
   }
 
-  // Delete image from Cloudinary before deleting the product
   if (product.imagePublicId) {
     await cloudinary.uploader.destroy(product.imagePublicId);
   }
 
   await product.deleteOne();
-  res.status(StatusCodes.OK).json({ msg: "Success! Product removed." });
+  sendSuccessResponse(res, "Product deleted successfully.", null);
 }
 
 export {

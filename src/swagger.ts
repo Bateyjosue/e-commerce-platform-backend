@@ -61,6 +61,15 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+        ErrorResponse: {
+          type: 'object',
+          properties: {
+            Success: { type: 'boolean', example: false },
+            Message: { type: 'string' },
+            Object: { type: 'object', nullable: true, example: null },
+            Errors: { type: 'array', items: { type: 'string' } },
+          },
+        },
       },
     },
   },
