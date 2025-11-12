@@ -108,4 +108,4 @@ This project uses `swagger-jsdoc` and `swagger-ui-express` to provide live, inte
 
 Once the server is running, you can access the full API documentation by navigating to:
 
-**http://localhost:3000/api-docs**
+**http://localhost:3000/api-docs** or [Live Doc](https://e-commerce-platform-backend-ox63.onrender.com/api-docs/)
