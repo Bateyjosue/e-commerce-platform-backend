@@ -41,17 +41,18 @@ Follow these steps to get your development environment set up and running:
     ```
 
 3.  **Create Environment Variables File**
-    Create a `.env` file in the root of your project. This file will store all the necessary secrets and configuration variables. Copy the contents from the `.env.example` below.
+    Create a `.env` file in the root of your project. This file will store all the necessary secrets and configuration variables.
     ```sh
     touch .env
     ```
 
 4.  **Populate the `.env` File**
-    Paste the following into your `.env` file and replace the placeholder values with your actual credentials.
+    Paste the following into your `.env` file and replace the placeholder values with your actual credentials. It is highly recommended to use a separate database for testing.
 
     ```env
-    # MongoDB Connection
-    MONGO_URI=your_mongodb_connection_string
+    # MongoDB Connections
+    MONGO_URI=your_main_mongodb_connection_string
+    TEST_MONGO_URI=your_test_mongodb_connection_string
 
     # JWT Configuration
     JWT_SECRET=your_super_secret_jwt_key
@@ -78,9 +79,26 @@ The server will start on port 3000.
 
 ## Available Scripts
 
-- "start:dev": "npx nodemon",
-- "build": "npx rimraf ./dist && tsc",
-- "start": "node dist/server.js"
+- `"start:dev"`: `"npx nodemon"`
+- `"build"`: `"npx rimraf ./dist && tsc"`
+- `"start"`: `"node dist/server.js"`
+- `"test"`: `"jest"`
+
+---
+
+## Testing
+
+This project uses [Jest](https://jestjs.io/) as its testing framework. The test suite is configured to run in a dedicated test environment.
+
+### Running Tests
+
+To run the complete test suite, simply use the following npm command:
+
+```sh
+npm test
+```
+
+The test setup will prioritize the `TEST_MONGO_URI` from your `.env` file. If it's not found, it will use a hardcoded fallback URI to ensure the tests can always run. This guarantees your development database is never affected.
 
 ---
 
