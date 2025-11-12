@@ -69,7 +69,7 @@ Follow these steps to get your development environment set up and running:
 5.  **Run the Development Server**
     This command starts the server with `nodemon`, which will automatically restart the application whenever you make changes to the code.
     ```sh
-    npm run dev
+    npm run start:dev
     ```
 
 The server will start on port 3000.
