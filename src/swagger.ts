@@ -1,79 +1,43 @@
-import swaggerJsdoc from 'swagger-jsdoc';
+
+import swaggerJsdoc from "swagger-jsdoc";
+
+// Determine the server URL based on the environment
+const serverUrl = process.env.NODE_ENV === 'production' 
+  ? process.env.RENDER_EXTERNAL_URL 
+  : `http://localhost:${process.env.PORT || 3000}`;
 
 const options: swaggerJsdoc.Options = {
   definition: {
-    openapi: '3.0.0',
+    openapi: "3.0.0",
     info: {
-      title: 'E-Commerce API',
-      version: '1.0.0',
-      description: 'API documentation for the E-Commerce application.',
+      title: "E-commerce Platform API",
+      version: "1.0.0",
+      description: "The official API documentation for the E-commerce Platform backend.",
     },
     servers: [
       {
-        url: 'https://3000-firebase-e-commerce-backend-1762700238265.cluster-ikslh4rdsnbqsvu5nw3v4dqjj2.cloudworkstations.dev/api/v1/', // Update with your actual server URL
-        description: 'Development server',
+        url: `${serverUrl}/api/v1`,
+        description: 'API Server'
       },
     ],
     components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+          }
+        }
       },
-      schemas: {
-        User: {
-          type: 'object',
-          properties: {
-            _id: { type: 'string', description: 'User ID' },
-            name: { type: 'string', description: 'User name' },
-            email: { type: 'string', format: 'email', description: 'User email' },
-          },
-        },
-        Product: {
-          type: 'object',
-          properties: {
-            _id: { type: 'string' },
-            name: { type: 'string' },
-            price: { type: 'number' },
-            description: { type: 'string' },
-            category: { type: 'string' },
-            stock: { type: 'number' },
-          },
-        },
-        Order: {
-          type: 'object',
-          properties: {
-            _id: { type: 'string' },
-            totalPrice: { type: 'number' },
-            status: { type: 'string', enum: ['pending', 'paid', 'delivered', 'canceled'] },
-            description: { type: 'string' },
-            products: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  product: { type: 'string' },
-                  quantity: { type: 'number' },
-                },
-              },
-            },
-          },
-        },
-        ErrorResponse: {
-          type: 'object',
-          properties: {
-            Success: { type: 'boolean', example: false },
-            Message: { type: 'string' },
-            Object: { type: 'object', nullable: true, example: null },
-            Errors: { type: 'array', items: { type: 'string' } },
-          },
-        },
-      },
-    },
+      security: [
+        {
+          bearerAuth: []
+        }
+      ]
   },
-  apis: ['./src/routes/*.ts'], // Path to the files containing OpenAPI annotations
+  apis: ["./src/routes/*.ts", "./src/models/*.ts"], // Paths to files containing OpenAPI definitions
 };
 
-export const swaggerSpec = swaggerJsdoc(options);
+const swaggerSpec = swaggerJsdoc(options);
+
+export default swaggerSpec;
