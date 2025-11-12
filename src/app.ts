@@ -11,7 +11,7 @@ import rateLimiter from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
 import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from './swagger';
+import swaggerSpec  from './swagger';
 import { v2 as cloudinary } from 'cloudinary';
 
 import { authRouter, orderRouter, productRouter, userRouter } from "./routes";
