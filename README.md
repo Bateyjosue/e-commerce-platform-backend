@@ -12,7 +12,7 @@ This repository contains the backend API for a robust and scalable e-commerce pl
 - **Caching**: Redis for high-performance caching of frequently accessed data (e.g., product listings).
 - **API Documentation**: Swagger (OpenAPI) for interactive and auto-generated API documentation.
 - **Security**: Includes `helmet` for setting secure HTTP headers, `express-mongo-sanitize` to prevent NoSQL injection, and `express-rate-limit` to mitigate brute-force attacks.
-
+[Live Demo](https://e-commerce-platform-backend-ox63.onrender.com)
 ---
 
 ## Prerequisites
